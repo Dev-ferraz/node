@@ -36,7 +36,7 @@ const Usuario = () => {
 //-----------------------------------------------------------------------------------------------
 useEffect(() => {
     if (usuarios.length === 0) {
-        usuarioService.ListarTodos()
+        usuarioService.listarTodos()
             .then((response) => {
                 if (Array.isArray(response.data)) {
                     setUsuarios(response.data);

@@ -65,13 +65,16 @@ const NewUserPage = () => {
         <div className={containerClassName}>
             <Toast ref={toast} />
             <div className="flex flex-column align-items-center justify-content-center">
-                <img src={`/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Sakai logo" className="mb-5 w-6rem flex-shrink-0" />
+            <img src="/layout/images/logo_nome.svg" alt="Logo Pássaro" width="145" height="145" />
+
                 <div
-                    style={{
-                        borderRadius: '56px',
-                        padding: '0.3rem',
-                        background: 'linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)'
-                    }}
+
+                style={{
+                    borderRadius: '56px',
+                    padding: '0.3rem',
+                    color: 'white', // Texto branco para contraste
+                    backgroundColor: 'black' // Certifique-se de usar 'backgroundColor'
+                     }}
                 >
                     <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
                         <div className="text-center mb-5">
@@ -113,11 +116,28 @@ const NewUserPage = () => {
 
 
                             <div className="flex align-items-center justify-content-between mb-5 gap-5">
-                                <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} onClick={() => router.push('/auth/login')}>
+                                <a className="font-medium no-underline ml-2 text-right cursor-pointer"
+                                style={{
+                                    color: 'black', // Cor do texto preta
+                                    backgroundColor: 'white' // Se precisar alterar o fundo do botão
+                                }}
+                                onClick={() => router.push('/auth/login')}>
                                     Já tenho cadastro!
                                 </a>
                             </div>
-                            <Button label="Efetuar Cadastro" className="w-full p-3 text-xl" onClick={() => novoUsuario()}></Button>
+                            <Button
+                            label="Efetuar Cadastro"
+                            className="w-full p-3 text-xl"
+                            onClick={() => novoUsuario()}
+                            style={{
+                            backgroundColor: '#40E0D0', // Cor do fundo
+                            color: 'black', // Cor do texto
+                            borderColor: 'black', // Cor da borda
+                            borderWidth: '1.5px' // Largura da borda
+                          }}
+                       />
+
+
                         </div>
                     </div>
                 </div>

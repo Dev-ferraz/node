@@ -36,7 +36,7 @@ function Recurso() {
 //-----------------------------------------------------------------------------------------------
     useEffect(() => {
         if(recursos.length == 0)
-        recursoService.ListarTodos()
+        recursoService.listarTodos()
             .then((response) => {
                 console.log(response.data);
                 if (Array.isArray(response.data)) {

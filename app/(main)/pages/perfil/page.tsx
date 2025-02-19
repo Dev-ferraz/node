@@ -38,22 +38,25 @@ function Perfil() {
     const toast = useRef<Toast>(null);
     const dt = useRef<DataTable<any>>(null);
     const perfilService = useMemo(() => new PerfilService(), []);
+
+
+
 //-----------------------------------------------------------------------------------------------
 useEffect(() => {
-    perfilService.ListarTodos()
-        .then((response) => {
-            console.log(response.data);
-            if (Array.isArray(response.data)) {
-                setPerfils(response.data);
-            } else {
+    if (perfils.length === 0) {
+        perfilService.listarTodos()
+            .then((response) => {
+                console.log(response.data);
+                setPerfils(Array.isArray(response.data) ? response.data : []);
+            })
+            .catch((error) => {
+                console.error("Erro ao listar perfis:", error);
                 setPerfils([]);
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-            setPerfils([]);
-        });
-}, [perfilService]);  // Remover `perfil` da lista de dependências
+            });
+    }
+}, [perfilService, perfils]); // A dependência agora é 'perfils' para verificar quando a lista estiver vazia
+
+
 
 //-----------------------------------------------------------------------------------------------
 
@@ -127,11 +130,13 @@ const savePerfil = () => {
     }
 };
 
-// Editar perfil
 const editPerfil = (perfil: Projeto.Perfil) => {
+    console.log('Editando perfil:', perfil);
     setPerfil({ ...perfil });
     setPerfilDialogVisible(true);
 };
+
+
 
 // Confirmar exclusão
 const confirmDeletePerfil = (perfil: Projeto.Perfil) => {

@@ -14,6 +14,7 @@ import Link from 'next/link';
 
 const LoginPage = () => {
 
+
     const [login, setLogin] = useState('');
     const [senha, setSenha] = useState('');
 
@@ -21,49 +22,63 @@ const LoginPage = () => {
     const { layoutConfig } = useContext(LayoutContext);
 
     const router = useRouter();
+
     const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', { 'p-input-filled': layoutConfig.inputStyle === 'filled' });
 
     const loginService = useMemo(() => new LoginService(), []);
 
     const toast = useRef<Toast>(null);
+//---------------------------------------------------------------------
 
     const efetuarLogin = () => {
-        loginService.login(login, senha).then((response) => {
-            console.log("Sucesso");
-            console.log(response.data.token);
+        loginService.login(login, senha)
+            .then((response) => {
+                console.log("Sucesso no login:", response);
 
-            localStorage.setItem('TOKEN_APLICACAO_FRONTEND', response.data.token);
+                if (response.data.token) {
+                    localStorage.setItem('TOKEN_APLICACAO_FRONTEND', response.data.token);
+                    router.push('/');
+                    window.location.reload();
+                } else {
+                    throw new Error("Token não recebido");
+                }
+            })
+            .catch((error) => {
+                console.error("Erro ao efetuar login:", error);
 
-            router.push('/');
-            window.location.reload();
-        }).catch(() => {
+                toast.current?.show({
+                    severity: 'error',
+                    summary: 'Erro!',
+                    detail: 'Login ou Senha estão inválidos!'
+                });
 
-            toast.current?.show({
-                severity: 'error',
-                summary: 'Erro!',
-                detail: 'Login ou Senha estão inválidos!'
+                setLogin('');
+                setSenha('');
             });
 
-            setLogin('');
-            setSenha('');
-        });
+//-----------------------------------------------------------------
     }
 
     return (
         <div className={containerClassName}>
             <Toast ref={toast} />
             <div className="flex flex-column align-items-center justify-content-center">
-                <img src={`/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Sakai logo" className="mb-5 w-6rem flex-shrink-0" />
+            <img src="/layout/images/logo_nome.svg" alt="Logo Pássaro" width="145" height="145" />
+
+
                 <div
-                    style={{
-                        borderRadius: '56px',
-                        padding: '0.3rem',
-                        background: 'linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)'
-                    }}
+
+                style={{
+                borderRadius: '56px',
+                padding: '0.3rem',
+                color: 'white', // Texto branco para contraste
+                backgroundColor: 'black' // Certifique-se de usar 'backgroundColor'
+                 }}
                 >
-                    <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
+
+                     <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
                         <div className="text-center mb-5">
-                            <span className="text-600 font-medium">Eu já possuo cadastro!</span>
+                            <span className="text-600 font-medium">INSERIR CADASTRO</span>
                         </div>
 
                         <div>
@@ -78,14 +93,27 @@ const LoginPage = () => {
                             <Password inputId="senha" value={senha} onChange={(e) => setSenha(e.target.value)} placeholder="Password" toggleMask className="w-full mb-5" inputClassName="w-full p-3 md:w-30rem"></Password>
 
                             <div className="flex align-items-center justify-content-between mb-5 gap-5">
-                                <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} onClick={() => router.push('/auth/newuser')}>
+                                <a className="font-medium no-underline ml-2 text-right cursor-pointer"
+
+                                style={{ color: 'black' }}
+                                onClick={() => router.push('/auth/newuser')}>
                                     Sou novo por aqui!
                                 </a>
-                                <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>
+
+                                <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'black' }}
+>
                                 Esqueceu sua senha?
                                 </a>
                             </div>
-                            <Button label="Entrar" className="w-full p-3 text-xl" onClick={() => efetuarLogin()}></Button>
+                            <Button
+                                 label="Entrar"
+                                 className="w-full p-3 text-xl"
+                                 onClick={() => efetuarLogin()}
+                                 style={{ backgroundColor: '#40E0D0', color: 'black',
+                                    borderColor: 'black', borderWidth: '1.5px' }}
+                        />
+
+
 
                         </div>
                     </div>

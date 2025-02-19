@@ -47,7 +47,7 @@ const PermissaoPerfilRecurso = () => {
 
     useEffect(() => {
         if (!permissaoPerfilRecursos) {
-            permissaoPerfilRecursoService.ListarTodos()
+            permissaoPerfilRecursoService.listarTodos()
                 .then((response) => {
                     console.log(response.data);
                     setPermissaoPerfilRecursos(response.data);
@@ -59,7 +59,7 @@ const PermissaoPerfilRecurso = () => {
 
     useEffect(() => {
         if(permissaoPerfilRecursoDialog){
-            recursoService.ListarTodos()
+            recursoService.listarTodos()
             .then((response) => setRecursos(response.data))
             .catch(error => {
                 console.log(error);
@@ -69,7 +69,7 @@ const PermissaoPerfilRecurso = () => {
                     detail: 'Erro ao carregar a lista de recurso!'
                 });
             });
-            perfilService.ListarTodos()
+            perfilService.listarTodos()
             .then((response) => setPerfis(response.data))
             .catch(error => {
                 console.log(error);
